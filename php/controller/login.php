@@ -21,12 +21,14 @@ $db = new Database();
 $result = $db->getUserInfo($username);
 
 $userId = $result['userId'];
+$role = $result['role'];
 $hash = $db->getPassHash($pass);
 
 if (!empty($result) AND $result['password'] === $hash)
 {
     session_start();
     $_SESSION['userId'] = $userId;
+    $_SESSION['userRole'] = $role;
     $_SESSION['hash'] = $hash;
     session_write_close();
     header("Location: /signin.php?success=1");
