@@ -9,12 +9,13 @@ require_once('header.php');
  * Print rental button
  *
  * @param $name
+ * @param $cardId
  * @param $disabled
  */
-function printButton($name, $disabled)
+function printButton($name, $cardId, $disabled)
 {
     $disabledStr = $disabled ? 'disabled' : '';
-    echo('<div class="span6" align="center"><button style="margin :10px" class="btn btn-large btn-info ' . $disabledStr . '">' . $name . '</button></div>');
+    echo('<div class="span6" align="center"><button data-id="' . $cardId . '" style="margin :10px" class="btn btn-large btn-info rent-button ' . $disabledStr . '">' . $name . '</button></div>');
 }
 
 /**
@@ -28,7 +29,7 @@ function getCards()
 
     foreach ($result as $card)
     {
-        printButton($card['name'], !empty($card['transactionId']));
+        printButton($card['name'], $card['cardId'], !empty($card['transactionId']));
     }
 }
 
