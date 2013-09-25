@@ -51,6 +51,19 @@ class Database
         return $_result;
     }
 
+    public function insertQuery($query, $parameters = array())
+    {
+        /* @var $_statement PDOStatement */
+        $_statement = $this->pdo->prepare($query);
+
+        return $_statement->execute($parameters);
+    }
+
+    public function getLastInsertID()
+    {
+        return $this->pdo->lastInsertId();
+    }
+
     /**
      * @param $query
      * @param array|null $parameters
