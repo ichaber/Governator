@@ -11,7 +11,7 @@ session_start();
 
 require_once '../Database.php';
 
-$json_array = array('success' => $_result, 'errorId' => null);
+$json_array = array('success' => false, 'errorId' => null);
 
 // Validate
 if (empty($_POST['cardId']))
