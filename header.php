@@ -1,42 +1,17 @@
 <?php
 require_once 'php/Database.php';
-
-/**
- * Has the logged in user rented a card
- *
- * @return bool
- */
-function userHasRentedCards()
-{
-    $db = new Database();
-
-    if (empty($_SESSION['userId']))
-    {
-        die('FAIL');
-    }
-
-    $result = $db->query(
-        '
-                SELECT * FROM `Card`
-                INNER JOIN `Transaction` USING (transactionId)
-                WHERE userId = :userId
-            ', array('userId' => $_SESSION['userId'])
-    );
-
-    if (empty($result))
-    {
-        return false;
-    }
-    else
-    {
-        return true;
-    }
-}
+require_once 'php/func/card.php';
 
 /*
  * Redirection
  */
-if (userHasRentedCards())
+$userId = $_SESSION['userId'];
+if (empty($userId))
+{
+    die('FAIL');
+}
+
+if (userHasRentedCards($userId))
 {
     //TODO: implement
 }
