@@ -1,6 +1,9 @@
 <?php
 
 require_once "../Database.php";
+
+const SALT = "\$6\$rounds=5000\$dfjo32498zuiash8kko293n449dfm48ny0ßmrh647ui3h67smv0nbertm2n233qsrweol";
+
 /**
  *
  * @author    Karl Bergthaler
@@ -17,16 +20,16 @@ if (empty($username) OR empty($pass))
     returnToSignin();
 }
 
-$db = new Database();
-$result = $db->getUserInfo($username);
-
+$result = getUserInfo($username);
 $userId = $result['userId'];
-$hash = $db->getPassHash($pass);
+$role = $result['role'];
+$hash = getPassHash($pass);
 
 if (!empty($result) AND $result['password'] === $hash)
 {
     session_start();
     $_SESSION['userId'] = $userId;
+    $_SESSION['userRole'] = $role;
     $_SESSION['hash'] = $hash;
     session_write_close();
     header("Location: /signin.php?success=1");
@@ -45,4 +48,34 @@ function returnToSignin()
 {
     header("Location: /signin.php?error=1");
     die;
+}
+
+/**
+ * @param $username
+ *
+ * @return array
+ */
+function getUserInfo($username)
+{
+    $db = new Database();
+    $sql = "
+        select * from
+            Governator.User
+        where username = :username
+    ";
+    $params = array(
+        ":username" => $username
+    );
+    $result = $db->query($sql, $params);
+    return !empty($result) ? $result[0] : array();
+}
+
+/**
+ * @param $pass
+ *
+ * @return string
+ */
+function getPassHash($pass)
+{
+    return crypt($pass, SALT);
 }
