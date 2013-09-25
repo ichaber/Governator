@@ -11,6 +11,7 @@ if (empty($userId))
     die('FAIL');
 }
 
+//Redirect return.php if the user has rented cards
 if (userHasRentedCards($userId))
 {
     header("Location: /return.php");
