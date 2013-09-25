@@ -11,19 +11,27 @@ session_start();
 
 require_once '../Database.php';
 
+$json_array = array('success' => $_result, 'errorId' => null);
+
 // Validate
 if (empty($_POST['cardId']))
 {
-    // TODO error
+    $json_array['success'] = false;
+    $json_array['errorId'] = 1;
+    echo json_encode($json_array);
+    die();
 }
 
 
 $Db = new Database();
 
+// Lock tables
 $_sql = "
-    LOCK TABLE `Card`;
+    START TRANSACTION
 ";
+$Db->insertQuery($_sql);
 
+// Check what transactionId this card has
 $_sql = "
     SELECT transactionId
     FROM `Card`
@@ -34,9 +42,20 @@ $_result = $Db->query($_sql, array('cardId' => $_POST['cardId']));
 
 if (empty($_result) OR $_result[0]['transactionId'] != 0)
 {
-    // TODO ERROR
+    $_result['success'] = false;
+    $_result['errorId'] = 2;
+
+    // Release lock
+    $_sql = "
+        COMMIT
+    ";
+    $Db->insertQuery($_sql);
+
+    echo json_encode($json_array);
+    die();
 }
 
+// Insert new transaction
 $_sql = "
    INSERT INTO `Transaction`
    SET userId = :userId, cardId = :cardId, fromDate = NOW()
@@ -45,11 +64,19 @@ $_result = $Db->insertQuery($_sql, array('cardId' => $_POST['cardId'], 'userId' 
 
 if (!$_result)
 {
-    // TODO Error
+    // Release lock
+    $_sql = "
+        COMMIT
+    ";
+    $Db->insertQuery($_sql);
+
+    echo json_encode($json_array);
+    die();
 }
 
 $_insert_id = $Db->getLastInsertID();
 
+// Set the information in the card object
 $_sql = "
     UPDATE `Card`
     SET transactionId = :transactionId
@@ -57,4 +84,11 @@ $_sql = "
 ";
 $_result = $Db->insertQuery($_sql, array('transactionId' => $_insert_id, 'cardId' => $_POST['cardId']));
 
-echo json_encode(array('success' => false));
+$_sql = "
+    COMMIT
+";
+$Db->insertQuery($_sql);
+
+$json_array['success'] = $_result;
+
+echo json_encode($json_array);
