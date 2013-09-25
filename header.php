@@ -1,3 +1,48 @@
+<?php
+require_once 'php/Database.php';
+
+/**
+ * Has the logged in user rented a card
+ *
+ * @return bool
+ */
+function userHasRentedCards()
+{
+    $db = new Database();
+
+    if (empty($_SESSION['userId']))
+    {
+        die('FAIL');
+    }
+
+    $result = $db->query(
+        '
+                SELECT * FROM `Card`
+                INNER JOIN `Transaction` USING (transactionId)
+                WHERE userId = :userId
+            ', array('userId' => $_SESSION['userId'])
+    );
+
+    if (empty($result))
+    {
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}
+
+/*
+ * Redirection
+ */
+if (userHasRentedCards())
+{
+    //TODO: implement
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
@@ -30,8 +75,8 @@
             </button>
             <a class="brand" href="/">Governator</a>
             <div class="nav-collapse collapse">
-                <ul class="nav">
-                    <li class="active"><a href="/">Home</a></li>
+                <ul class="nav pull-right">
+                    <li><a href="php/controller/logout.php">Logout</a></li>
                 </ul>
             </div><!--/.nav-collapse -->
         </div>

@@ -39,7 +39,7 @@ class Database
      * @param array|null $parameters
      * @return array
      */
-    public function query($query, $parameters = null)
+    public function query($query, $parameters = array())
     {
         $_statement = $this->pdo->prepare($query, $parameters);
         /* @var $_statement PDOStatement */
