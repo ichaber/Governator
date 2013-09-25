@@ -1,7 +1,6 @@
 <?php
 require_once 'php/Database.php';
 require_once 'php/func/card.php';
-require_once 'php/func/redirect.php';
 
 /*
  * Redirection
@@ -11,16 +10,7 @@ if (empty($userId))
 {
     die('FAIL');
 }
-
-//Redirect return.php if the user has rented cards
-if (userHasRentedCards($userId))
-{
-    redirectToReturnPage();
-    die;
-}
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">

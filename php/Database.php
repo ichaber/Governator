@@ -63,4 +63,17 @@ class Database
     {
         return $this->pdo->lastInsertId();
     }
+
+    /**
+     * @param $query
+     * @param array|null $parameters
+     * @return int Number of affected rows
+     */
+    public function update($query, $parameters) {
+        $_statement = $this->pdo->prepare($query);
+
+        $_statement->execute($parameters);
+
+        return $_statement->rowCount();
+    }
 }
