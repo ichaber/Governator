@@ -51,12 +51,16 @@
 
     <div class="container">
 
-      <form class="form-signin">
-        <h2 class="form-signin-heading">Please sign in</h2>
-        <input type="text" class="input-block-level" placeholder="Email address">
-        <input type="password" class="input-block-level" placeholder="Password">
-        <button class="btn btn-large btn-primary" type="submit"><i class="icon-credit-card" style="margin-right: 5px;"></i>Sign in</button>
-      </form>
+        <?php if ($_GET['error']) { ?>
+            <div class="alert alert-error">There was an error with your credentials. Please try again!</div>
+        <?php } ?>
+
+        <form class="form-signin" action="php/controller/login.php" method="POST">
+            <h2 class="form-signin-heading">Please sign in</h2>
+            <input name="username" type="text" class="input-block-level" placeholder="Username">
+            <input name="pass" type="password" class="input-block-level" placeholder="Password">
+            <button class="btn btn-large btn-primary" type="submit"><i class="icon-credit-card" style="margin-right: 5px;"></i>Sign in</button>
+        </form>
 
     </div> <!-- /container -->
 
