@@ -17,6 +17,8 @@ class Database
 
     const DB_DATABASE = "Governator";
 
+    const SALT = "\$6\$rounds=5000\$dfjo32498zuiash8kko293n449dfm48ny0ßmrh647ui3h67smv0nbertm2n233qsrweol";
+
     private $pdo = null;
 
     /**
@@ -41,14 +43,44 @@ class Database
      */
     public function query($query, $parameters = array())
     {
-        $_statement = $this->pdo->prepare($query, $parameters);
         /* @var $_statement PDOStatement */
+        $_statement = $this->pdo->prepare($query);
 
         $_statement->execute($parameters);
 
         $_result = $_statement->fetchAll();
 
         return $_result;
+    }
+
+
+    /**
+     * @param $username
+     *
+     * @return array
+     */
+    public function getUserInfo($username)
+    {
+        $sql = "
+            select * from
+                Governator.User
+            where username = :username
+        ";
+        $params = array(
+            ":username" => $username
+        );
+        $result = $this->query($sql, $params);
+        return !empty($result) ? $result[0] : array();
+    }
+
+    /**
+     * @param $pass
+     *
+     * @return string
+     */
+    public function getPassHash($pass)
+    {
+        return crypt($pass, self::SALT);
     }
 
 }
