@@ -10,15 +10,7 @@ if (empty($userId))
 {
     die('FAIL');
 }
-
-if (userHasRentedCards($userId))
-{
-    header("Location: /return.php");
-    die;
-}
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">

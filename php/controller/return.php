@@ -1,7 +1,22 @@
 <?php
 
-
 require_once "../Database.php";
+
+session_start();
+
+$userId = $_SESSION['userId'];
+
+if ($userId) {
+
+    $success = returnCardForUser($userId);
+    if ($success) {
+        header("Location: /rental.php");
+        die;
+    } else {
+        header("Location: /return-failed.php");
+        die;
+    }
+}
 
 /**
  * @param $userId int
@@ -18,13 +33,13 @@ function returnCardForUser($userId)
             Governator.`Transaction` AS t
         SET
             t.untilDate = NOW(),
-            c.transactionId = NULL
+            c.transactionId = 0
         WHERE
             t.userId = :userId
             AND t.transactionId = c.transactionId
             AND t.cardId = c.cardId
             AND t.untilDate IS NULL
-            AND c.transactionId IS NOT NULL
+            AND c.transactionId != 0
     ";
 
     $params = array(
@@ -33,5 +48,5 @@ function returnCardForUser($userId)
 
     $affectedRows = $db->update($sql, $params);
 
-    return ($affectedRows === 1) ? true : false;
+    return ($affectedRows === 2) ? true : false;
 }

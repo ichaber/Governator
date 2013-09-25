@@ -2,6 +2,13 @@
 session_start();
 require_once('php/Database.php');
 require_once('header.php');
+
+$userId = $_SESSION['userId'];
+if (userHasRentedCards($userId))
+{
+    header("Location: /return.php");
+    die;
+}
 ?>
 
 <?php
