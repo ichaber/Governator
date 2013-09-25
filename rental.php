@@ -13,7 +13,7 @@ require_once('header.php');
 function printButton($name, $disabled)
 {
     $disabledStr = $disabled ? 'disabled' : '';
-    echo('<div class="span6" align="center"><button style="margin :10px" class="btn btn-info ' . $disabledStr . '">' . $name . '</button></div>');
+    echo('<div class="span6" align="center"><button style="margin :10px" class="btn btn-large btn-info ' . $disabledStr . '">' . $name . '</button></div>');
 }
 
 /**
