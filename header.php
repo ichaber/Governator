@@ -1,6 +1,7 @@
 <?php
 require_once 'php/Database.php';
 require_once 'php/func/card.php';
+require_once 'php/func/redirect.php';
 
 /*
  * Redirection
@@ -14,7 +15,7 @@ if (empty($userId))
 //Redirect return.php if the user has rented cards
 if (userHasRentedCards($userId))
 {
-    header("Location: /return.php");
+    redirectToReturnPage();
     die;
 }
 ?>

@@ -2,6 +2,7 @@
 
 require_once "../Database.php";
 require_once '../func/card.php';
+require_once '../func/redirect.php';
 
 const SALT = "\$6\$rounds=5000\$dfjo32498zuiash8kko293n449dfm48ny0ßmrh647ui3h67smv0nbertm2n233qsrweol";
 
@@ -18,7 +19,8 @@ $pass = $_POST['pass'];
 
 if (empty($username) OR empty($pass))
 {
-    returnToSignin();
+    returnToSigninError();
+    die;
 }
 
 $result = getUserInfo($username);
@@ -36,27 +38,22 @@ if (!empty($result) AND $result['password'] === $hash)
 
     if (userHasRentedCards($userId))
     {
-        header("Location: /return.php");
+        redirectToReturnPage();
     }
     else
     {
-        header("Location: /rental.php");
+        redirectToRentalPage();
     }
 }
 else
 {
-    returnToSignin();
+    returnToSigninError();
+    die;
 }
 
 
 
 ####Functions
-function returnToSignin()
-{
-    header("Location: /signin.php?error=1");
-    die;
-}
-
 /**
  * @param $username
  *
