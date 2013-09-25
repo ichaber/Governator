@@ -13,7 +13,8 @@ if (empty($userId))
 
 if (userHasRentedCards($userId))
 {
-    //TODO: implement
+    header("Location: /return.php");
+    die;
 }
 ?>
 
