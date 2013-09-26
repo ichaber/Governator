@@ -42,8 +42,8 @@ $_result = $Db->query($_sql, array('cardId' => $_POST['cardId']));
 
 if (empty($_result) OR $_result[0]['transactionId'] != 0)
 {
-    $_result['success'] = false;
-    $_result['errorId'] = 2;
+    $json_array['success'] = false;
+    $json_array['errorId'] = 2;
 
     // Release lock
     $_sql = "
@@ -69,6 +69,9 @@ if (!$_result)
         COMMIT
     ";
     $Db->insertQuery($_sql);
+
+    $json_array['success'] = false;
+    $json_array['errorId'] = 0;
 
     echo json_encode($json_array);
     die();

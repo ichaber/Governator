@@ -12,7 +12,7 @@ if (!userHasRentedCards($userId))
 ?>
 
 <form class="form" action="php/controller/return.php" method="POST">
-   <button type="submit" class="btn btn-primary">Return Card</button>
+    <button type="submit" class="btn btn-primary btn-large" style="width: 100%;">Return Card</button>
 </form>
 
 <?php
