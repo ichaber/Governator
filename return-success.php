@@ -25,7 +25,7 @@ function getLastUserCardName($userId) {
         Governator.`Card` AS c
         USING (cardId)
     WHERE
-        t.userId = 3
+        t.userId = :userId
     ORDER BY
         untilDate DESC
     LIMIT
