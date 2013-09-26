@@ -29,6 +29,8 @@ if (empty($userId))
     </style>
     <link href="./css/bootstrap-responsive.css" rel="stylesheet">
 
+    <link href="./lib/tablesorter/css/theme.bootstrap.css" rel="stylesheet">
+
 </head>
 
 <body style="">

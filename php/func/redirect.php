@@ -28,3 +28,9 @@ function redirectToRentalPage()
 {
     header("Location: /rental.php");
 }
+
+//Redirects to the admin page
+function redirectToAdminPage()
+{
+    header("Location: /admin.php");
+}

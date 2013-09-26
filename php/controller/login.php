@@ -36,13 +36,21 @@ if (!empty($result) AND $result['password'] === $hash)
     $_SESSION['hash'] = $hash;
     session_write_close();
 
-    if (userHasRentedCards($userId))
+    if($role === 'admin')
     {
-        redirectToReturnPage();
+        redirectToAdminPage();
     }
     else
     {
-        redirectToRentalPage();
+
+        if (userHasRentedCards($userId))
+        {
+            redirectToReturnPage();
+        }
+        else
+        {
+            redirectToRentalPage();
+        }
     }
 }
 else

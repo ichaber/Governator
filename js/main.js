@@ -79,4 +79,23 @@ $(document).ready(function() {
         mainContainer.prepend(alertBox);
     }
 
+    $('#adminTable').tablesorter({
+        theme : "bootstrap",
+        widthFixed: true,
+        headerTemplate : '{content} {icon}', // new in v2.7. Needed to add the bootstrap icon!
+        widgets : [ "uitheme", "filter", "zebra" ],
+        widgetOptions : {
+          zebra : ["even", "odd"],
+          filter_reset : ".reset"
+        }
+      })
+      .tablesorterPager({
+
+        container: $(".pager"),
+        cssGoto  : ".pagenum",
+        removeRows: false,
+        output: '{startRow} - {endRow} / {filteredRows} ({totalRows})'
+
+      });
+
 });
